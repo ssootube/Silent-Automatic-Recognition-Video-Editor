@@ -1,6 +1,8 @@
 # Silent-Automatic-Recognition-Video-Editor
 Silent Automatic Recognition Video Editor using SFML and FFMPEG
+
 무음구간 자동인식 영상 편집기(FFMPEG와 SFML기반)
+
 이 프로젝트를 컴파일하려면 SFML을 링크하여야 하고, FFMPEG가 PC에 설치되어 있어야 합니다.
 c++를 기반으로 작성되었고, SFML을 기반으로 간단한 GUI를 보여줍니다.
 마우스를 스크롤하여 막대들을 선택할 수 있습니다.
