@@ -87,3 +87,9 @@ float IOhelper::getFloatWhile(function<bool(float)> condition, string msg)
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	return result;
 }
+
+bool IOhelper::getLoad()
+{
+	cout << dic["load"][lang];
+	return getIntWhile([](int a)->bool {return a == 0 || a == 1; }, dic["yes no"][lang] + dic["only 0,1"][lang]);
+}

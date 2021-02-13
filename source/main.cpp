@@ -11,8 +11,10 @@ int main() {
 	iohelper.selectLang();
 	iohelper.getOption(op);
 	Tokenizer tokenizer;
-	tokenizer.analyze(op, 300);//샘플링은 300정도로 설정한다.
-
+	if (iohelper.getLoad())
+		op.load();
+	else
+		tokenizer.analyze(op, 300);//샘플링은 300정도로 설정한다.
 	iohelper.showInfo();
 	long long int scroll = 0;
 	RenderWindow window(VideoMode(480, 480), "auto mute recognition video editer[Math channel Ssootube]");
@@ -62,6 +64,12 @@ int main() {
 				{
 					cout << dic["pieceFilter"][lang];
 					op.pieceFilter(iohelper.getFloatWhile([](float a)->bool {return a >= 0; }, dic["only decimal"][lang]));
+				}
+				else if (e.key.code == Keyboard::S)
+				{
+					cout << dic["saving"][lang];
+					op.save();
+					cout << dic["saved"][lang];
 				}
 			}
 		}

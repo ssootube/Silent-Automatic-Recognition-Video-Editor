@@ -14,7 +14,17 @@ void Cut::set_end(float end)
 	rect.setSize(Vector2f(get_width(start,end), 20));
 }
 
+Cut::Cut()
+{
+}
+
 Cut::Cut(float start, float end, bool is_silent) :start(start), end(end), is_silent(is_silent) {
 	rect.setSize(Vector2f(get_width(start,end), 20));
+	is_silent ? rect.setFillColor(Color::Red) : rect.setFillColor(Color::Green);
+}
+
+void Cut::init()
+{
+	rect.setSize(Vector2f(get_width(start, end), 20));
 	is_silent ? rect.setFillColor(Color::Red) : rect.setFillColor(Color::Green);
 }

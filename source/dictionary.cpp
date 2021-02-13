@@ -6,12 +6,29 @@ unordered_map<string, vector<string>> dic =
 	"언어를 선택하세요.(영어: 0, 한국어: 1)>\n"}},
 
 	{"only 0,1",
-	{"please enter 0 or 1 only(English: 0, Korean: 1)>\n",
-	"0과 1 중에 하나만 입력하세요(영어: 0, 한국어:1)>\n"}},
+	{"please enter 0 or 1 only>\n",
+	"0과 1 중에 하나만 입력하세요>\n"}},
+
+	{"load",
+	{"Do you want to load the file you were working on before? The file to be loaded must be the same text file as the name of the current source video.\n",
+	"이전에 작업하던 파일을 로드하시겠습니까? 로드할 파일은 현재 원본 동영상의 이름과 동일한 텍스트 파일이어야 합니다.\n"}},
 
 	{"only decimal",
 	{"Please enter only positive realnumber in decimal places>",
 	"양의 실수만을 소수점 단위로 입력해주세요>"}},
+
+	{"yes no",
+	{"(yes : 1, no : 0)",
+	"(네 : 1, 아니오: 0)"}},
+
+	{"saving",
+	{"saving\n",
+	"저장중입니다.\n"}},
+
+
+	{"saved",
+	{"saved\n",
+	"저장되었습니다.\n"}},
 
 	{"threshold",
 	{"Please set threshold of the volume. About 30 to 70 is appropriate\n",

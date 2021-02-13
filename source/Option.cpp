@@ -50,3 +50,29 @@ void Option::pieceFilter(float min)
 		}
 	}
 }
+
+void Option::save()
+{
+	ofstream data(title + ".txt", ios::out);
+	data << cuts.size() << endl;
+	for (auto iter : cuts){
+		data << (iter.is_silent ? "1\n" : "0\n");
+		data << iter.start << endl << iter.end << endl;
+	}
+	data.close();
+}
+
+void Option::load()
+{
+	ifstream data(title + ".txt", ios::in);
+	int size;
+	data >> size;
+	cuts = vector<Cut>(size);
+	for (int i = 0; i < size; ++i)
+	{
+		data >> cuts[i].is_silent;
+		data >> cuts[i].start;
+		data >> cuts[i].end;
+		cuts[i].init();
+	}
+}

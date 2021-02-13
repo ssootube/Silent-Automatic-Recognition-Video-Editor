@@ -2,6 +2,7 @@
 #include <string>
 #include <SFML/Audio.hpp>
 #include <vector>
+#include <fstream>
 #include "Cut.h"
 
 using namespace std;
@@ -15,6 +16,9 @@ public:
 	void			toggleSilent(size_t idx);
 	void			draw(RenderWindow& window, size_t i);
 	void			pieceFilter(float min);
+	void			save();
+	void			load();
+	
 	int				threshold;
 	string			title;
 	SoundBuffer		buffer;

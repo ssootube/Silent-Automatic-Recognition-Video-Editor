@@ -19,4 +19,5 @@ public:
 	SoundBuffer		LoadAudio(string title);
 	void			showInfo();
 	void			showEnding();
+	bool			getLoad();
 };
