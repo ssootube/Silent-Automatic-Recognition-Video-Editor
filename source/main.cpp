@@ -1,27 +1,18 @@
 #include "IOhelper.h"
 #include "Tokenizer.h"
+#include "Option.h"
 #include <direct.h>
 using namespace std;
 using namespace sf;
 int main() {
 	_mkdir("temp");
+	Option	op;
 	IOhelper iohelper;
 	iohelper.selectLang();
-	int threshold = iohelper.getThreshold();
-	string title = iohelper.getTitle();
-	SoundBuffer buf = iohelper.LoadAudio(title);
-	Tokenizer tokenizer(buf.getSamples(), buf.getSampleCount(),threshold, buf.getSampleRate());
-	Sound sound(buf);
-	switch (iohelper.lang) 
-	{
-	case 0:
-		cout << "Audio Load Completed\n";
-		break;
-	case 1:
-		cout << "오디오 로드 완료\n";
-		break;
-	}
-	tokenizer.analyze(300);//샘플링은 300정도로 설정한다.
+	iohelper.getOption(op);
+	Tokenizer tokenizer;
+	tokenizer.analyze(op, 300);//샘플링은 300정도로 설정한다.
+
 	iohelper.showInfo();
 	long long int scroll = 0;
 	RenderWindow window(VideoMode(480, 480), "auto mute recognition video editer[Math channel Ssootube]");
@@ -34,49 +25,64 @@ int main() {
 				window.close();
 			if (e.type == Event::MouseWheelScrolled)
 			{
-				cout << abs(scroll) << "/" << tokenizer.getCutsSize() << endl;
+				cout << abs(scroll) << "/" << op.cuts.size() << endl;
 				scroll += e.mouseWheel.x / 1000000000;
 			}
 			if (e.type == Event::KeyPressed) 
 			{
 				if (e.key.code == Keyboard::Space) 
 				{
-					if (sound.getStatus() == Sound::Playing) 
+					if (op.sound.getStatus() == Sound::Playing) 
 					{
-						sound.stop();
+						op.sound.stop();
 					}
 					else 
 					{
 						selected = abs(scroll);
-						tokenizer.setFillColor(selected, Color::Blue);
-						sound.setPlayingOffset(sf::seconds(tokenizer.getStart(selected)));
-						sound.play();
+						op.setFillColor(selected, Color::Blue);
+						op.sound.setPlayingOffset(sf::seconds(op.getStart(selected)));
+						op.sound.play();
 					}
 				}
 				else if (e.key.code == Keyboard::X) 
 				{
-					tokenizer.toggleSilent(abs(scroll));
+					op.toggleSilent(abs(scroll));
+				}
+				else if (e.key.code == Keyboard::Up)
+				{
+					cout << abs(scroll) << "/" << op.cuts.size() << endl;
+					scroll++;
+				}
+				else if (e.key.code == Keyboard::Down)
+				{
+					cout << abs(scroll) << "/" << op.cuts.size() << endl;
+					scroll--;
+				}
+				else if (e.key.code == Keyboard::F)
+				{
+					cout << dic["pieceFilter"][lang];
+					op.pieceFilter(iohelper.getFloatWhile([](float a)->bool {return a >= 0; }, dic["only decimal"][lang]));
 				}
 			}
 		}
 		if (selected >= 0) 
 		{
-			if (sound.getPlayingOffset() >= sf::seconds(tokenizer.getEnd(selected)) || sound.getStatus() == Sound::Stopped) {
-				tokenizer.setFillColor(selected, Color::Red);
+			if (op.sound.getPlayingOffset() >= sf::seconds(op.getEnd(selected)) || op.sound.getStatus() == Sound::Stopped) {
+				op.setFillColor(selected, Color::Red);
 				selected = -1;
-				sound.stop();
+				op.sound.stop();
 			}
 		}
 		window.clear();
-		for (int i = 0; i < tokenizer.getCutsSize(); ++i) {
+		for (int i = 0; i < op.cuts.size(); ++i) {
 			if (i + scroll > 24) break;
 			if (i + scroll < 0) continue;
-			tokenizer.setPosition(Vector2f(0, 20 * (i + scroll)), i);
-			tokenizer.draw(window, i);
+			op.cuts[i].rect.setPosition(Vector2f(0, 20 * (i + scroll)));
+			op.draw(window, i);
 		}
 		window.display();
 	}
-	tokenizer.chop(title);
-	tokenizer.remove(title);
+	tokenizer.chop(op);
+	system("del .\\temp\\*");
 	iohelper.showEnding();
 }
